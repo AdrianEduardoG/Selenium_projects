@@ -20,4 +20,25 @@ def test_add_cart(driver):
 
     assert int(cart_qty.text) == buttons
 
+def test_menu_button(driver):
+    inventory_page = InventoryPage(driver)
+    inventory_page.element_titles()
 
+def test_add_to_cart(driver):
+    inventory_page = InventoryPage(driver)
+    inventory_page.add_to_cart(5)
+
+def test_add_all_to_cart(driver):
+    inventory_page = InventoryPage(driver)
+    inventory_page.add_all_to_cart()
+
+def test_filter_by_value(driver):
+    inventory_page = InventoryPage(driver)
+    inventory_page.filter("az")
+    inventory_page.filter("za")
+    inventory_page.filter("lohi")
+    inventory_page.filter("hilo")
+
+def test_cart(driver):
+    inventory_page = InventoryPage(driver)
+    inventory_page.cart()
