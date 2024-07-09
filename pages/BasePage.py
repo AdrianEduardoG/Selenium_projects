@@ -1,3 +1,7 @@
+from selenium.webdriver.support.select import Select
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 class BasePage:
     def __init__(self, driver):
         self.driver = driver
@@ -6,17 +10,21 @@ class BasePage:
         self.driver.get(url)
 
     def find_element(self, by, selector):
-        return self.driver.find_element(by, selector)
+        return WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((by, selector)))
     
     def find_elements(self, by, selector):
-        return self.driver.find_elements(by, selector)
+        return WebDriverWait(self.driver, 10).until(EC.presence_of_all_elements_located((by, selector)))
     
     def click(self, by, selector):
         element  = self.driver.find_element(by, selector)
-        element.click()
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(element))
+        self.driver.execute_script("arguments[0].click();", element)
 
-    def click_by_driver(self, driver):
-        driver.click()
+    # def click_by_script(self, by, selector):
+    #     element = self.find_element(by, selector)
+    #     WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(element))
+    #     # self.driver.execute_script("arguments[0].click();", element)
+    #     element.click()
 
     def type_text(self, by, selector, text):
         element = self.driver.find_element(by, selector)
