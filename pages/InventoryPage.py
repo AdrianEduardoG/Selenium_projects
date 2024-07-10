@@ -18,15 +18,20 @@ class InventoryPage(BasePage):
         # self.CART_BUTTON_CLASS          = "shopping_cart_link" 
         # self.LEFT_MENU_ID               = "react-burger-menu-btn"
 
-        self.LEFT_MENU          = (By.ID, "react-burger-menu-btn")
-        self.MENU_ABOUT         = (By.ID, "about_sidebar_link")
-        self.MENU_LOGOUT        = (By.ID, "logout_sidebar_link")
-        self.MENU_CLOSE         = (By.ID, "react-burger-cross-btn")    
-        # self.ITEM_TITLE         = (By.XPATH, "//div[@class='inventory_item_label']//a")
-        self.ELEMENT_TITLE      = By.LINK_TEXT
-        self.ADD_TO_CART_BUTTON = (By.XPATH, "//div[@class='inventory_list']//button")
-        self.SELECT_FILTER_BOX  = (By.CLASS_NAME, "product_sort_container")
-        self.CART_BUTTON_CLASS  = (By.CLASS_NAME, "shopping_cart_link")
+        self.LEFT_MENU              = (By.ID, "react-burger-menu-btn")
+        self.MENU_ABOUT             = (By.ID, "about_sidebar_link")
+        self.MENU_LOGOUT            = (By.ID, "logout_sidebar_link")
+        self.MENU_CLOSE             = (By.ID, "react-burger-cross-btn")    
+        #self.ITEM_TITLE         = (By.XPATH, "//div[@class='inventory_item_label']//a")
+        self.ELEMENT_TITLE_LINK     = By.LINK_TEXT
+        self.ELEMENTS_TITLES_LINKS  = (By.XPATH, "//div[@class='inventory_list']//div[@class='inventory_item_label']//a")
+        self.BACK_TO_PRODUCTS       = (By.ID, "back-to-products")
+        # self.ELEMENT_TITLE      = (By.XPATH, "div[@class='inventory_details_name large_size']")
+        self.ELEMENT_TITLE          = (By.CLASS_NAME, "inventory_details_name")
+        self.ADD_TO_CART_BUTTON     = (By.XPATH, "//div[@class='inventory_list']//button")
+        self.SELECT_FILTER_BOX      = (By.CLASS_NAME, "product_sort_container")
+        self.CART_BUTTON_CLASS      = (By.CLASS_NAME, "shopping_cart_link")
+        self.QTY_CART_ELEMENTS      = (By.XPATH, "//span[@class='shopping_cart_badge']")
 
     def menu_button(self):
         self.click_by_script(self.LEFT_MENU[0], self.LEFT_MENU[1])
@@ -43,8 +48,14 @@ class InventoryPage(BasePage):
         self.menu_button()
         self.click_by_script(self.MENU_CLOSE[0],self.MENU_CLOSE[1])
 
-    def element_titles(self, title):
-        self.click(self.ITEM_TITLE, title)
+    def click_element_title(self, title):
+        self.click(self.ELEMENT_TITLE_LINK, title)
+
+    def click_selected_element_title(self, selected):
+        self.click_selected_buttons(self.ELEMENTS_TITLES_LINKS[0], self.ELEMENTS_TITLES_LINKS[1], selected)
+
+    def element_title(self):
+        return self.find_element(self.ELEMENT_TITLE[0], self.ELEMENT_TITLE[1]).text
 
     def add_to_cart(self, element_selected):
         self.click_selected_buttons(self.ADD_TO_CART_BUTTON[0], self.ADD_TO_CART_BUTTON[1], element_selected)
@@ -57,6 +68,17 @@ class InventoryPage(BasePage):
 
     def cart(self):
         self.click(self.CART_BUTTON_CLASS[0], self.CART_BUTTON_CLASS[1])
+
+    def qty_cart_element(self):
+        self.scroll_into_view(self.QTY_CART_ELEMENTS[0], self.QTY_CART_ELEMENTS[1])
+        return self.find_element(self.QTY_CART_ELEMENTS[0], self.QTY_CART_ELEMENTS[1]).text
+    
+    def get_link_titles_text(self):
+        return self.find_elements(self.ELEMENTS_TITLES_LINKS[0], self.ELEMENTS_TITLES_LINKS[1])
+    
+    def click_back_to_inventory(self):
+        self.click(self.BACK_TO_PRODUCTS[0], self.BACK_TO_PRODUCTS[1])
+
     
     
 
